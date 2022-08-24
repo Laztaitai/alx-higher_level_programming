@@ -1,26 +1,49 @@
-#ifndef LISTS_H
-#define LISTS_H
-#include <stdio.h>
-#include <stdlib.h>
-
+#include "lists.h"
 /**
- * struct listint_s - singly linked list
- * @n: integer
- * @next: points to the next node
- *
- * Description: singly linked list node structure
- * for Holberton project
+ * insert_node - inserts a node in a linked list
+ * @head: double pointer to the head of the list
+ * @number: value to be added to node
+ * Return: the address of the new node, or NULL if it failed
  */
-typedef struct listint_s
+
+listint_t *insert_node(listint_t **head, int number)
 {
-    int n;
-    struct listint_s *next;
-} listint_t;
+	listint_t *current, *temp, *new;
 
-size_t print_listint(const listint_t *h);
-listint_t *add_nodeint_end(listint_t **head, const int n);
-void free_listint(listint_t *head);
+	current = *head, temp = *head, new = NULL;
 
-listint_t *insert_node(listint_t **head, int number);
-
-#endif /* LISTS_H */
+	new = malloc(sizeof(listint_t));
+	if (new == NULL)
+		return (NULL);
+	if (*head == NULL)
+	{
+		new->n = number;
+		new->next = NULL;
+		*head = new;
+		return (new);
+	}
+	if (temp == NULL)
+		return (NULL);
+	if (temp->n >= number)
+	{
+		new->n = number;
+		new->next = temp;
+		*head = new;
+		return (new);
+	}
+	while (current->next)
+	{
+		current = current->next;
+		if (current->n >= number)
+		{
+			new->n = number;
+			new->next = current;
+			temp->next = new;
+			return (new);
+		}
+		else
+			temp = temp->next;
+	}
+	new = add_nodeint_end(head, number);
+	return (new);
+}
