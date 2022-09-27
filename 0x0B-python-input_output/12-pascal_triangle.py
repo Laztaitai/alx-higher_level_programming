@@ -1,37 +1,38 @@
 #!/usr/bin/python3
-"""Module 12-student.
-Creates a Student class.
-"""
+""" pascal_triangle module """
 
 
-class Student:
-    """Class that defines a student.
-    Public attributes:
-        - first_name
-        - last_name
-        - age
-    Public method to_json().
+def pascal_triangle(prmN):
+    """
+        Function that define a Pascal triangle
+        Args:
+            prmN: size of the triangle
     """
 
-    def __init__(self, first_name, last_name, age):
-        """Initializes the Student instance."""
+    triangle = []
+    if prmN <= 0:
+        return triangle
 
-        self.first_name = first_name
-        self.last_name = last_name
-        self.age = age
+    for i in range(prmN):
+        row = []
+        for j in range(prmN):
+            if (j > i):
+                break
+            if i > 0 and len(triangle) == i and len(triangle[i - 1]) > j:
+                y = triangle[i - 1][j]
+            elif len(triangle) >= i:
+                y = 0
+            if (
+                i > 0 and len(triangle) > i - 1 and
+                j > 0 and len(triangle[i - 1]) > j - 1
+            ):
+                x = triangle[i - 1][j - 1]
+            else:
+                x = 0
+            if x == 0 and y == 0:
+                row.append(1)
+            else:
+                row.append(x + y)
+        triangle.append(row)
 
-    def to_json(self, attrs=None):
-        """Retrieves a dictionary representation
-        of a Student instance.
-        Args:
-            - attrs: list of attributes
-        Returns: the dict representation of the instance.
-        """
-
-        my_dict = dict()
-        if type(attrs) is list and all(type(x) is str for x in attrs):
-            for x in attrs:
-                if x in self.__dict__:
-                    my_dict.update({x: self.__dict__[x]})
-            return my_dict
-        return self.__dict__.copy()
+    return 
